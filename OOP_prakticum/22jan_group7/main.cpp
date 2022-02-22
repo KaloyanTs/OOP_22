@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cstring>
 const unsigned NAME_MAX = 32;
 
@@ -164,6 +165,14 @@ void deallocBook(Book &b)
     }
 }
 
+double getAverage(const Subject &s)
+{
+    double sum = 0;
+    for (unsigned i = 0; i < s.gradesCount; ++i)
+        sum += s.grades[i];
+    return sum / s.gradesCount;
+}
+
 void summarizeSubject(const Book &b, const char *s)
 {
     unsigned i = 0;
@@ -179,12 +188,15 @@ void summarizeSubject(const Book &b, const char *s)
 
 void summarizeGradebook(const Book &b)
 {
+    double sum = 0;
     std::cout << "Summary:\n";
     for (unsigned i = 0; i < b.subjectCount; ++i)
     {
         std::cout << '\t';
         printSubject(b.subjects[i]);
+        sum += getAverage(b.subjects[i]);
     }
+    std::cout << "Average: " << std::fixed << std::setprecision(2) << sum / b.subjectCount << '\n';
 }
 
 void addGradeToSubject(Book &b, const char *sName, unsigned grade)
@@ -239,9 +251,14 @@ void Task2()
     deallocBook(b);
 }
 
+struct StudentsBook
+{
+};
+
 int main()
 {
     // Task1();
     Task2();
+
     return 0;
 }
