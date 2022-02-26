@@ -80,26 +80,27 @@ bool leftBeforeRight(const Complex &c1, const Complex &c2)
     return getLength(c1) <= getLength(c2);
 }
 
-void swapComplexPointers(Complex *&c1, Complex *&c2)
-// want arguments to be const Complex *&
+void swapComplexPointers(const Complex *&c1, const Complex *&c2)
 {
-    Complex *c = c1;
-    // want c to be const Complex *
+    const Complex *c = c1;
     c1 = c2;
     c2 = c;
 }
 
-void sortComplexArray(Complex **arr, size_t n)
+void sortComplexArray(const Complex *arr, size_t n)
 // want first argument to be const Complex **
 {
     unsigned iMin = 0;
+    const Complex *p1 = nullptr, *p2 = nullptr;
     for (unsigned i = 0; i < n; ++i)
     {
         iMin = i;
         for (unsigned j = i + 1; j < n; ++j)
-            if (!leftBeforeRight(*arr[iMin], *arr[j]))
+            if (!leftBeforeRight(arr[iMin], arr[j]))
                 iMin = j;
-        swapComplexPointers(arr[i], arr[iMin]);
+        p1 = arr + i;
+        p2 = arr + iMin;
+        swapComplexPointers(p1, p2);
     }
 }
 
@@ -138,7 +139,7 @@ int main()
         std::cout << "Enter complex number #" << i + 1 << ": ";
         arr[i]->init();
     }
-    sortComplexArray(arr, N);
+    sortComplexArray(*arr, N);
     // invalid conversion from "Complex **" to "const Complex **"
     printComplexArray(arr, N);
     std::cout << "Average of all numbers is: ";
