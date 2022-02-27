@@ -256,7 +256,7 @@ void Task2()
     list[10].init("Khloe", 548, nullptr);
     list[11].init("Tom", 1000, &list[6]);
 
-    size_t Team1WorkersCount = 6;
+    const size_t Team1WorkersCount = 6;
     Worker *Team1Workers[Team1WorkersCount];
     Team1Workers[0] = &list[0];
     Team1Workers[1] = &list[1];
@@ -265,7 +265,7 @@ void Task2()
     Team1Workers[4] = &list[4];
     Team1Workers[5] = &list[5];
 
-    size_t Team2WorkersCount = 6;
+    const size_t Team2WorkersCount = 6;
     Worker *Team2Workers[Team2WorkersCount];
     Team2Workers[0] = &list[6];
     Team2Workers[1] = &list[7];
