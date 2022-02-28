@@ -60,47 +60,51 @@ struct Grade
 {
     char name[NAME_MAX];
     unsigned value = 0;
-    void init()
-    {
-        std::cout << "Enter subject name and grade:\n";
-        std::cin.ignore();
-        std::cin.getline(name, NAME_MAX);
-        std::cin >> value;
-    }
-    void print() const
-    {
-        std::cout << name << ": " << value << '\n';
-    }
 };
+
+void initGrade(Grade &g)
+{
+    std::cout << "Enter subject name and grade:\n";
+    std::cin.ignore();
+    std::cin.getline(g.name, NAME_MAX);
+    std::cin >> g.value;
+}
+
+void printGrade(const Grade &g)
+{
+    std::cout << g.name << ": " << g.value << '\n';
+}
 
 struct Student
 {
     char name[NAME_MAX];
     char fn[NAME_MAX];
     Grade grades[GRADE_COUNT_MAX];
-    void init()
-    {
-        std::cout << "Enter student's first name: ";
-        std::cin.ignore();
-        std::cin.getline(name, NAME_MAX);
-        std::cout << "Enter student's ID: ";
-        std::cin.getline(fn, NAME_MAX);
-        for (unsigned i = 0; i < GRADE_COUNT_MAX; ++i)
-        {
-            std::cout << i + 1 << ": ";
-            grades[i].init();
-        }
-    }
-    void print() const
-    {
-        std::cout << "Name: " << name << "\tID: " << fn << '\n';
-        for (unsigned i = 0; i < GRADE_COUNT_MAX; ++i)
-        {
-            std::cout << "\tgrade #" << i + 1 << ": ";
-            grades[i].print();
-        }
-    }
 };
+
+void initStudent(Student &s)
+{
+    std::cout << "Enter student's first name: ";
+    std::cin.ignore();
+    std::cin.getline(s.name, NAME_MAX);
+    std::cout << "Enter student's ID: ";
+    std::cin.getline(s.fn, NAME_MAX);
+    for (unsigned i = 0; i < GRADE_COUNT_MAX; ++i)
+    {
+        std::cout << i + 1 << ": ";
+        initGrade(s.grades[i]);
+    }
+}
+
+void printStudent(const Student &s)
+{
+    std::cout << "Name: " << s.name << "\tID: " << s.fn << '\n';
+    for (unsigned i = 0; i < GRADE_COUNT_MAX; ++i)
+    {
+        std::cout << "\tgrade #" << i + 1 << ": ";
+        printGrade(s.grades[i]);
+    }
+}
 
 void deallocStudentArray(Student **&arr, size_t count)
 {
@@ -130,8 +134,10 @@ Student **createStudentArray(size_t &n)
             n = 0;
             return nullptr;
         }
-        arr[i]->init();
+        initStudent(*arr[i]);
     }
+    for (unsigned i = 0; i < n; ++i)
+        std::cout << "arr[" << i << "]: " << arr + i << ": " << arr[i] << '\n';
     return arr;
 }
 
@@ -140,7 +146,8 @@ void printStudentArray(Student **arr, size_t count)
     for (unsigned i = 0; i < count; ++i)
     {
         std::cout << "Student #" << i + 1 << ":\n";
-        arr[i]->print();
+        printStudent(*arr[i]);
+        // printStudent(*(*(&(arr) + i)));
     }
 }
 
@@ -184,7 +191,7 @@ void swapStudentPointers(const Student *s1, const Student *s2)
     s2 = tmp;
 }
 
-void sortStudentArray(const Student *arr, size_t count)
+void sortStudentArray(Student **arr, size_t count)
 //първият аргумент да е const Student **
 {
     unsigned iMin = 0;
@@ -192,10 +199,10 @@ void sortStudentArray(const Student *arr, size_t count)
     {
         iMin = i;
         for (unsigned j = 0; j < count; ++j)
-            if (toBeSwapped(arr[iMin], arr[j]))
+            if (toBeSwapped(*arr[iMin], *arr[j]))
                 // if (toBeSwapped(*arr[iMin], *arr[j]))
                 iMin = j;
-        swapStudentPointers(arr + i, arr + iMin);
+        swapStudentPointers(arr[i], arr[iMin]);
         // swapStudentPointers(arr[i], arr[iMin]);
     }
 }
@@ -211,19 +218,19 @@ int main()
 
     size_t count = 0;
     Student **arr = createStudentArray(count);
-
     showAchievedGrade(arr, count, 4);
-    sortStudentArray(*arr, count);
+    sortStudentArray(arr, count);
     // тук да подаваме само arr
     // invalid conversion from 'Student **' to 'const Student**'
     // има ли как да се заобиколи?
     printStudentArray(arr, count);
+    //аналогично за print
 
     deallocStudentArray(arr, count);
     return 0;
 }
 
-//Input example
+// Input example
 
 // 3
 
