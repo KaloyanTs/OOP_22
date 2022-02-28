@@ -200,10 +200,8 @@ void sortStudentArray(Student **arr, size_t count)
         iMin = i;
         for (unsigned j = 0; j < count; ++j)
             if (toBeSwapped(*arr[iMin], *arr[j]))
-                // if (toBeSwapped(*arr[iMin], *arr[j]))
                 iMin = j;
         swapStudentPointers(arr[i], arr[iMin]);
-        // swapStudentPointers(arr[i], arr[iMin]);
     }
 }
 
@@ -220,7 +218,6 @@ int main()
     Student **arr = createStudentArray(count);
     showAchievedGrade(arr, count, 4);
     sortStudentArray(arr, count);
-    // тук да подаваме само arr
     // invalid conversion from 'Student **' to 'const Student**'
     // има ли как да се заобиколи?
     printStudentArray(arr, count);
