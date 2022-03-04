@@ -1,6 +1,5 @@
 #pragma once
 #include "Direction.hpp"
-#include "Types.hpp"
 #include "Ship.hpp"
 #include "Cell.hpp"
 const unsigned MAP_SIZE_MAX = 12;
