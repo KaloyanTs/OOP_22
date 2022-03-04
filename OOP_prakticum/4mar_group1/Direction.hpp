@@ -5,11 +5,7 @@ struct Direction
     int dy, dx;
     Direction(unsigned d = 0)
     {
-        if (!d)
-        {
-            dx = dy = 0;
-        }
-        else if (d == 1)
+        if (d == 1)
         {
             dy = -1;
             dx = 0;
@@ -48,6 +44,10 @@ struct Direction
         {
             dy = -1;
             dx = -1;
+        }
+        else
+        {
+            dx = dy = 0;
         }
     }
 };
