@@ -1,9 +1,6 @@
 #include <iostream>
 #include <cstring>
 #include "Sector.hpp"
-const unsigned EXIT = 0;
-const unsigned PRINT = 1;
-const unsigned ACQUIRE = 2;
 
 bool executeCmd(Sector &s, const char *cmd)
 {
