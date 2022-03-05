@@ -75,7 +75,11 @@ bool Company::acquire(Company &c)
     c.mother = this;
     this->daughters[daughterCount++] = &c;
     for (unsigned i = 0; i < c.daughterCount; ++i)
+    {
         this->daughters[daughterCount++] = c.daughters[i];
+        c.daughters[i]->mother = this;
+    }
+    c.daughterCount = 0;
     std::cout << "<Acquiring done successfully.>\n";
     return true;
 }
