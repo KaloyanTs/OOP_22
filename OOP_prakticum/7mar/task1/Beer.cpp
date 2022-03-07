@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-#include "Beer.h"
+#include "Beer.hpp"
 
 void Beer::init(const char *_brand, unsigned _q)
 {
