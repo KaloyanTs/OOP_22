@@ -10,6 +10,7 @@ class Polynomial
     void sortElements();
     void dealloc(Monomial **arr, size_t c);
     unsigned determineSumCount(const Polynomial &P) const;
+    void removeZeros();
 
 public:
     Polynomial();
