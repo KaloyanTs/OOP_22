@@ -58,12 +58,14 @@ Polynomial Polynomial::operator+(const Polynomial &P) const
     unsigned thisCount = 0, PCount = 0;
     unsigned currDegree;
     int currCoeff;
-    for (unsigned i = 0; i < res.count; ++i)
+    unsigned i = 0;
+    for (i = 0; PCount < P.count && thisCount < count; ++i)
     {
         if (elements[thisCount]->getDegree() == P.elements[PCount]->getDegree())
         {
-            res.elements[i] = new (std::nothrow) Monomial(elements[thisCount]->getDegree(),
-                                                          elements[thisCount]->getCoefficient() + P.elements[PCount]->getCoefficient());
+            res.elements[i] = new (std::nothrow) Monomial(
+                elements[thisCount]->getCoefficient() + P.elements[PCount]->getCoefficient(),
+                elements[thisCount]->getDegree());
             ++thisCount;
             ++PCount;
         }
@@ -74,7 +76,7 @@ Polynomial Polynomial::operator+(const Polynomial &P) const
         }
         else
         {
-            res.elements[i] = new (std::nothrow) Monomial(*P.elements[P.count]);
+            res.elements[i] = new (std::nothrow) Monomial(*P.elements[PCount]);
             ++PCount;
         }
         if (!res.elements[i])
@@ -84,7 +86,33 @@ Polynomial Polynomial::operator+(const Polynomial &P) const
             return Polynomial();
         }
     }
+    while (PCount < P.count)
+    {
+        res.elements[i] = new (std::nothrow) Monomial(*P.elements[PCount]);
+        if (!res.elements[i])
+        {
+            res.dealloc(res.elements, i);
+            std::cout << "<Summing Polynomial failed.>\n";
+            return Polynomial();
+        }
+        ++PCount;
+        ++i;
+    }
+    while (thisCount < count)
+    {
+        res.elements[i] = new (std::nothrow) Monomial(*elements[thisCount]);
+        if (!res.elements[i])
+        {
+            res.dealloc(res.elements, i);
+            std::cout << "<Summing Polynomial failed.>\n";
+            return Polynomial();
+        }
+        ++thisCount;
+        ++i;
+    }
     std::cout << "<Polynomial summed successfully.>\n";
+    res.removeZeros();
+    res.sortElements();
     return res;
 }
 
@@ -95,6 +123,8 @@ Polynomial Polynomial::operator*(const Polynomial &P) const
 
 const Polynomial &Polynomial::operator=(const Polynomial &P)
 {
+    if (&P == this)
+        return *this;
     copy(P);
     std::cout << "<Equalization done successfully.>\n";
     return *this;
@@ -125,7 +155,7 @@ unsigned Polynomial::determineSumCount(const Polynomial &P) const
     for (unsigned i = 0; i < count; ++i)
     {
         unsigned j = 0;
-        while (j < P.count && elements[i]->getDegree() != P.elements[i]->getDegree())
+        while (j < P.count && elements[i]->getDegree() != P.elements[j]->getDegree())
             ++j;
         if (j < P.count)
             --res;
@@ -151,6 +181,8 @@ int Polynomial::operator[](unsigned d) const
 
 void Polynomial::copy(const Polynomial &P)
 {
+    if (&P == this)
+        return;
     Monomial **newEl = new Monomial *[P.count];
     if (!newEl)
     {
@@ -213,6 +245,7 @@ void Polynomial::fromString(const char *s)
         s = sEnd;
     }
     std::cout << "<String converted to Polynomial successfully.>\n";
+    removeZeros();
     sortElements();
 }
 
@@ -237,4 +270,24 @@ void Polynomial::sortElements()
         elements[i] = elements[iMax];
         elements[iMax] = tmp;
     }
+}
+
+void Polynomial::removeZeros()
+{
+    if (!elements)
+        return;
+    unsigned newCount = count;
+    for (unsigned i = 0; i < count; ++i)
+        if (elements[i]->getCoefficient() == 0)
+            --newCount;
+    if (newCount == count)
+        return;
+    Monomial **newEl = new Monomial *[newCount];
+    unsigned newIter = 0;
+    for (unsigned i = 0; i < count; ++i)
+        if (elements[i]->getCoefficient())
+            newEl[newIter++] = new Monomial(*elements[i]);
+    dealloc(elements, count);
+    count = newCount;
+    elements = newEl;
 }
