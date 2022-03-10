@@ -118,7 +118,24 @@ Polynomial Polynomial::operator+(const Polynomial &P) const
 
 Polynomial Polynomial::operator*(const Polynomial &P) const
 {
-    return Polynomial();
+    if (!elements || !P.elements)
+        return Polynomial();
+    Polynomial res;
+    res.count = elements[0]->getDegree() + P.elements[0]->getDegree() + 1;
+
+    int *resArr = new int[res.count];
+    for (unsigned i = 0; i < res.count; ++i)
+        resArr[i] = 0;
+    for (unsigned thisIter = 0; thisIter < count; ++thisIter)
+        for (unsigned pIter = 0; pIter < P.count; ++pIter)
+            resArr[elements[thisIter]->getDegree() + P.elements[pIter]->getDegree()] +=
+                elements[thisIter]->getCoefficient() * P.elements[pIter]->getCoefficient();
+
+    res.elements = new Monomial *[res.count];
+    for (unsigned i = 0; i < res.count; ++i)
+        res.elements[i] = new Monomial(resArr[res.count - 1 - i], res.count - 1 - i);
+    res.removeZeros();
+    return res;
 }
 
 const Polynomial &Polynomial::operator=(const Polynomial &P)
