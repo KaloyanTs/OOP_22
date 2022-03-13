@@ -119,7 +119,8 @@ void Song::setDurationSeconds(short sec)
 
 const Song &Song::operator=(const Song &S)
 {
-    copy(S);
+    if (this != &S)
+        copy(S);
     return *this;
 }
 
