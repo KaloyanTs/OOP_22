@@ -1,5 +1,6 @@
 #include <iostream>
-#include "Specialty.hpp"
+#include "University.hpp"
+#include "Student.hpp"
 
 int main()
 {
