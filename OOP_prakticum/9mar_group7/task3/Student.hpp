@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include <cassert>
+#include "Classes.hpp"
 #include "Specialty.hpp"
 const unsigned NAMES_COUNT = 3;
 const unsigned INPUT_MAX = 32;
@@ -21,7 +22,9 @@ class Student
 public:
     Student();
     Student(const Student &);
+    const Specialty *getSpecialty() const { return specialty; }
     const Student &operator=(const Student &);
+    void setSpecialty(const Specialty *S) { specialty = S; }
     void print() const;
     void read(Specialty **, size_t);
     ~Student();

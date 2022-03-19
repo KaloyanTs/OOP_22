@@ -3,6 +3,7 @@
 Student::Student()
 {
     names = nullptr;
+    fn = nullptr;
     namesCount = 0;
     specialty = nullptr;
     credits = 0;
@@ -73,7 +74,7 @@ const Student &Student::operator=(const Student &S)
 
 void Student::print() const
 {
-    const char *spName = specialty->getName();
+    const char *spName = (specialty ? specialty->getName() : nullptr);
     std::cout << "Name: ";
     for (unsigned i = 0; i < namesCount; ++i)
         std::cout << names[i] << ' ';
@@ -106,43 +107,33 @@ void Student::read(Specialty **spArr, size_t spCount)
     {
         while (*bufNameEnd && *bufNameEnd != ' ')
             ++bufNameEnd;
-        names[newNameCount] = new (std::nothrow) char[bufNameEnd - bufNameBegin];
-        if (!names[newNameCount])
+        newName[newNameCount] = new (std::nothrow) char[bufNameEnd - bufNameBegin + 1];
+        if (!newName[newNameCount])
         {
-            dealloc(names, newNameCount);
+            dealloc(newName, newNameCount);
             std::cout << "<Student could not be read.>\n";
             return;
         }
         for (unsigned i = 0; i < bufNameEnd - bufNameBegin; ++i)
-            names[newNameCount][i] = bufNameBegin[i];
-        names[newNameCount][bufNameEnd - bufNameBegin] = '\0';
+            newName[newNameCount][i] = bufNameBegin[i];
+        newName[newNameCount][bufNameEnd - bufNameBegin] = '\0';
         if (*bufNameEnd)
             ++bufNameEnd;
         bufNameBegin = bufNameEnd;
         ++newNameCount;
     }
-    --newNameCount;
     std::cout << "Enter student's ID: ";
     std::cin.getline(buf, INPUT_MAX);
     char *newFn = new (std::nothrow) char[strlen(buf) + 1];
     if (!newFn)
     {
+        dealloc(newName, newNameCount);
         std::cout << "<Student could not be read.>\n";
         return;
     }
     strcpy(newFn, buf);
-    std::cout << "<Enter student's specialty.>\n";
+    std::cout << "Enter student's specialty: ";
     std::cin.getline(buf, INPUT_MAX);
-    unsigned i = 0;
-    while (i < spCount && strcmp(spArr[i]->getName(), buf))
-        ++i;
-    if (i < spCount)
-    {
-        specialty = spArr[i];
-        spArr[i]->addStudent(this);
-    }
-    else
-        specialty = nullptr;
     std::cout << "Enter student's credits: ";
     std::cin >> credits;
 
@@ -153,6 +144,16 @@ void Student::read(Specialty **spArr, size_t spCount)
         dealloc(names, namesCount);
     namesCount = newNameCount;
     names = newName;
+    unsigned i = 0;
+    while (i < spCount && strcmp(spArr[i]->getName(), buf))
+        ++i;
+    if (i < spCount)
+    {
+        specialty = spArr[i];
+        spArr[i]->addStudent(this);
+    }
+    else
+        specialty = nullptr;
     std::cout << "<Student read successfully.>\n";
 }
 
@@ -161,7 +162,7 @@ unsigned Student::countNames(const char *s)
     if (!*s)
         return 0;
     unsigned res = 0;
-    while (s)
-        res += *s == ' ';
+    while (*s)
+        res += *s++ == ' ';
     return res + 1;
 }

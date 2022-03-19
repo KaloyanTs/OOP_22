@@ -3,17 +3,27 @@
 #include <iostream>
 #include <cstring>
 #include <cassert>
+#include "Classes.hpp"
 #include "Student.hpp"
+const unsigned INIT_CAPACITY = 1;
 
 class Specialty
 {
     char *name;
-    const Student **studetns;
+    const Student **students;
     size_t studentCount, studentCapacity;
+    void copy(const Specialty &);
 
 public:
+    Specialty();
+    Specialty(const char *);
+    Specialty(const Specialty &);
     const char *getName() const { return name; }
-    void addStudent(const Student *);
+    void setName(const char *_name);
+    void addStudent(Student *);
+    const Specialty &operator=(const Specialty &);
+    void print() const;
+    ~Specialty();
 };
 
 #endif
