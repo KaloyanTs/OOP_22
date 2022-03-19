@@ -89,7 +89,7 @@ Student::~Student()
     std::cout << "<Student deleted successfully.>\n";
 }
 
-void Student::read(Specialty **spArr, size_t spCount)
+void Student::read(Specialty *const *spArr, size_t spCount)
 {
     std::cout << "Enter student's name: ";
     char buf[INPUT_MAX];

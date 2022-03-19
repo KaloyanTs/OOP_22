@@ -26,7 +26,7 @@ public:
     const Student &operator=(const Student &);
     void setSpecialty(const Specialty *S) { specialty = S; }
     void print() const;
-    void read(Specialty **, size_t);
+    void read(Specialty *const *, size_t);
     ~Student();
 };
 

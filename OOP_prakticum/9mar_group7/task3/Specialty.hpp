@@ -19,6 +19,8 @@ public:
     Specialty(const char *);
     Specialty(const Specialty &);
     const char *getName() const { return name; }
+    const Student **getStudents() const { return students; }
+    size_t getStudentCount() const { return studentCount; }
     void setName(const char *_name);
     void addStudent(Student *);
     const Specialty &operator=(const Specialty &);
