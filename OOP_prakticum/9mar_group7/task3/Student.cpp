@@ -89,7 +89,7 @@ Student::~Student()
     std::cout << "<Student deleted successfully.>\n";
 }
 
-void Student::read(Specialty *const *spArr, size_t spCount)
+void Student::read(const University &U)
 {
     std::cout << "Enter student's name: ";
     char buf[INPUT_MAX];
@@ -145,12 +145,14 @@ void Student::read(Specialty *const *spArr, size_t spCount)
     namesCount = newNameCount;
     names = newName;
     unsigned i = 0;
-    while (i < spCount && strcmp(spArr[i]->getName(), buf))
+    Specialty *const *UniSp = U.getSpecialties();
+    unsigned UniSpCount = U.getSpecialtiesCount();
+    while (i < UniSpCount && strcmp(UniSp[i]->getName(), buf))
         ++i;
-    if (i < spCount)
+    if (i < UniSpCount)
     {
-        specialty = spArr[i];
-        spArr[i]->addStudent(this);
+        specialty = UniSp[i];
+        UniSp[i]->addStudent(this);
     }
     else
         specialty = nullptr;
