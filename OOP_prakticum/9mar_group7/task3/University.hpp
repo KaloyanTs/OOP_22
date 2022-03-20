@@ -12,6 +12,8 @@ class University
     size_t spCount, subCount;
     size_t spCapacity, subCapacity;
     void copy(const University &U);
+    void deallocSp(Specialty **&spArr, size_t size);
+    void deallocSub(Subject **&subArr, size_t size);
 
 public:
     University();
@@ -20,7 +22,7 @@ public:
     size_t getSpecialtiesCount() const { return spCount; }
     size_t getSubjectsCount() const { return subCount; }
     Specialty *const *getSpecialties() const { return specialties; }
-    Subject *const *getSubject() const { return subjects; }
+    Subject *const *getSubjects() const { return subjects; }
     void readNewSpecialty();
     void readNewSubject();
     void printStudents() const;

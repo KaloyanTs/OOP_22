@@ -4,7 +4,8 @@
 #include <cstring>
 #include <cassert>
 #include "Classes.hpp"
-#include "Specialty.hpp"
+#include "University.hpp"
+
 const unsigned NAMES_COUNT = 3;
 const unsigned INPUT_MAX = 32;
 
@@ -26,7 +27,7 @@ public:
     const Student &operator=(const Student &);
     void setSpecialty(const Specialty *S) { specialty = S; }
     void print() const;
-    void read(Specialty *const *, size_t);
+    void read(const University &U);
     ~Student();
 };
 

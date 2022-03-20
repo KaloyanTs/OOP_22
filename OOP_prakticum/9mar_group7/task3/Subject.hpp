@@ -19,6 +19,7 @@ public:
     const char *getName() const { return name; }
     const char *getLecturer() const { return lecturerName; }
     unsigned getCredits() const { return credits; }
+    void read(Specialty **list, size_t listSize);
     const Specialty *getSpecialty() const { return specialty; }
     void print() const;
     ~Subject();
