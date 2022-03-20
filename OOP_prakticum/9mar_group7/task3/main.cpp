@@ -4,21 +4,29 @@
 
 int main()
 {
-    Specialty **SU;
-    SU = new Specialty *[3];
-    SU[0] = new Specialty("Computer science");
-    SU[1] = new Specialty("Informatics");
-    SU[2] = new Specialty("Software engeneering");
+    University SU;
+    SU.readNewSpecialty();
+    SU.readNewSpecialty();
+    SU.readNewSpecialty();
+    SU.printStructure();
+    SU.readNewSubject();
+    std::cin.ignore();
+    SU.readNewSubject();
+    std::cin.ignore();
+    SU.readNewSubject();
+    std::cin.ignore();
+    SU.readNewSubject();
+    std::cin.ignore();
+    SU.readNewSubject();
+    std::cin.ignore();
     Student s[5];
     for (unsigned i = 0; i < 5; ++i)
     {
-        s[i].read(SU, 3);
+        s[i].read(SU);
         std::cin.ignore();
     }
-    for (unsigned i = 0; i < 3; ++i)
-        SU[i]->print();
-    for (unsigned i = 0; i < 3; ++i)
-        delete SU[i];
-    delete[] SU;
+
+    SU.printStructure();
+    SU.printStudents();
     return 0;
 }
