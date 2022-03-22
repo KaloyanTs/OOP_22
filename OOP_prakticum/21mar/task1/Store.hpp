@@ -20,7 +20,7 @@ public:
 	bool addProduct(const Product &P);
 	bool addProduct(const char *_name, const char *_pName, unsigned _price, unsigned _quantity);
 	void changeQuantity(const char *_name, const char *_pName, unsigned newQuantity);
-	bool buy(const char *name, const char *pName, unsigned price, unsigned desiredQ);
+	bool buy(const Product &P);
 	size_t getCount() const { return size; }
 	const Store &operator=(const Store &S);
 	void print() const;

@@ -91,20 +91,23 @@ void Store::changeQuantity(const char *_name, const char *_pName, unsigned newQu
 		products[i]->setQuantity(newQuantity);
 }
 
-bool Store::buy(const char *name, const char *pName, unsigned price, unsigned desiredQ)
+bool Store::buy(const Product &P)
 {
-	Product P(name, pName, price, 0);
 	unsigned i = 0;
 	while (i < size && !(*products[i] == P))
 		++i;
-	if (i == size || products[i]->getQuantity() < desiredQ)
+	if (i == size ||
+		products[i]->getQuantity() < P.getQuantity() ||
+		products[i]->getPrice() > P.getPrice())
 	{
 		std::cout << "<Product could not be bought.>\n";
 		return false;
 	}
-	std::cout << "You bought: ";
-	products[i]->print();
-	if (desiredQ == products[i]->getQuantity())
+	std::cout << "You bought: "
+			  << P.getName() << " by " << P.getProducerName()
+			  << " for total price of " << P.getQuantity() * products[i]->getPrice()
+			  << '\n';
+	if (P.getQuantity() == products[i]->getQuantity())
 	{
 		delete products[i];
 		for (unsigned j = i; j < size - 1; ++j)
@@ -112,7 +115,7 @@ bool Store::buy(const char *name, const char *pName, unsigned price, unsigned de
 		--size;
 	}
 	else
-		products[i]->setQuantity(products[i]->getQuantity() - desiredQ);
+		products[i]->setQuantity(products[i]->getQuantity() - P.getQuantity());
 	return true;
 }
 

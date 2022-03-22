@@ -20,7 +20,8 @@ int main()
 	a.print();
 	a.printProducerGoods("az");
 	std::cout << "Product you want to buy:\n";
-	a.buy("apple", "az", 5, 2);
+	p.read();
+	a.buy(p);
 	a.print();
 	return 0;
 }
