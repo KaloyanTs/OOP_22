@@ -103,10 +103,10 @@ bool Product::setProducerName(const char *_pName)
 bool Product::operator==(const Product &P) const
 {
 	return this == &P ||
-		   (price == P.price &&
-			// quantity == P.quantity &&
-			!strcmp(name, P.name) &&
-			!strcmp(producerName, P.producerName));
+		   ( // price == P.price &&
+			 // quantity == P.quantity &&
+			   !strcmp(name, P.name) &&
+			   !strcmp(producerName, P.producerName));
 }
 
 const Product &Product::operator=(const Product &P)
