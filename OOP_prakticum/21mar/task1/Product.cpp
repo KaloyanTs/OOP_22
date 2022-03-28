@@ -11,6 +11,7 @@ bool Product::copy(const Product &P)
 	char *newPName = new (std::nothrow) char[strlen(P.producerName) + 1];
 	if (!newPName)
 	{
+		delete[] newName;
 		std::cout << "<Product could not be copied properly.>\n";
 		return false;
 	}
