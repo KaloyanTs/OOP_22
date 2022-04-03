@@ -181,7 +181,36 @@ BigNumber &BigNumber::operator/=(const BigNumber &other)
 
 BigNumber BigNumber::operator/(const BigNumber &other) const
 {
-    return BigNumber();
+    BigNumber res;
+    BigNumber buf;
+    BigNumber rem;
+    size_t i = 0, maxI = strlen(this->num);
+    while (i < maxI && buf < other)
+    {
+        buf.appendLeft(*this, i);
+        ++i;
+    }
+    while (i < maxI)
+    {
+        if (buf >= other)
+        {
+            res.appendRight(buf.simpleDivision(other, rem));
+            buf = rem;
+        }
+        else
+            res.appendRight(0);
+        buf.appendLeft(*this, i);
+        ++i;
+    }
+    if (buf >= other)
+    {
+        res.appendRight(buf.simpleDivision(other, rem));
+        buf = rem;
+    }
+    else
+        res.appendRight(0);
+    res.negative = *res.num != '0' && negative != other.negative;
+    return res;
 }
 
 BigNumber &BigNumber::operator%=(const BigNumber &other)
@@ -192,7 +221,35 @@ BigNumber &BigNumber::operator%=(const BigNumber &other)
 
 BigNumber BigNumber::operator%(const BigNumber &other) const
 {
-    return BigNumber();
+    BigNumber res;
+    BigNumber buf;
+    BigNumber rem;
+    size_t i = 0, maxI = strlen(this->num);
+    while (i < maxI && buf < other)
+    {
+        buf.appendLeft(*this, i);
+        ++i;
+    }
+    while (i < maxI)
+    {
+        if (buf >= other)
+        {
+            res.appendRight(buf.simpleDivision(other, rem));
+            buf = rem;
+        }
+        else
+            res.appendRight(0);
+        buf.appendLeft(*this, i);
+        ++i;
+    }
+    if (buf >= other)
+    {
+        res.appendRight(buf.simpleDivision(other, rem));
+        buf = rem;
+    }
+    else
+        res.appendRight(0);
+    return buf;
 }
 
 BigNumber::BigNumber(const char *number)
@@ -276,12 +333,12 @@ BigNumber &BigNumber::operator=(const BigNumber &other)
 
 bool BigNumber::operator>=(const BigNumber &other) const
 {
-    return *this == other || *this > other;
+    return !(*this < other);
 }
 
 bool BigNumber::operator<=(const BigNumber &other) const
 {
-    return *this == other || *this < other;
+    return !(*this > other);
 }
 
 size_t BigNumber::sumLength(const BigNumber &other) const
@@ -332,8 +389,6 @@ BigNumber::BigNumber(long long int number)
 BigNumber BigNumber::simpleMultiply(unsigned n) const
 {
     BigNumber res = 0LL;
-    if (n == '9')
-        std::cout << "here\n";
     for (unsigned i = 0; i < n; ++i)
         res += *this;
     return res;
@@ -350,4 +405,53 @@ BigNumber BigNumber::mulPower10(unsigned power) const
         append0[i] = '0';
     append0[power] = '\0';
     return newNum;
+}
+
+const BigNumber &BigNumber::appendLeft(const BigNumber &other, size_t pos)
+{
+    if (*num == '0')
+    {
+        *num = other.num[pos];
+        return *this;
+    }
+    size_t thisL = strlen(num);
+    char *newNum = new (std::nothrow) char[thisL + 2];
+    assert(newNum);
+    strcpy(newNum, num);
+    newNum[thisL] = other.num[pos];
+    newNum[thisL + 1] = '\0';
+    delete[] num;
+    num = newNum;
+    return *this;
+}
+
+unsigned BigNumber::simpleDivision(const BigNumber &divisor, BigNumber &remainder) const
+{
+    unsigned res = 0;
+    remainder = *this;
+    while (remainder > divisor)
+    {
+        remainder -= divisor;
+        ++res;
+        assert(res < 10);
+    }
+    return res;
+}
+
+const BigNumber &BigNumber::appendRight(unsigned n)
+{
+    assert(n < 10);
+    if (*this->num == '0')
+    {
+        *this->num = n + '0';
+        return *this;
+    }
+    size_t thisL = strlen(this->num);
+    char *newNum = new (std::nothrow) char[thisL + 2];
+    strcpy(newNum, this->num);
+    newNum[thisL] = n + '0';
+    newNum[thisL + 1] = '\0';
+    delete[] num;
+    num = newNum;
+    return *this;
 }

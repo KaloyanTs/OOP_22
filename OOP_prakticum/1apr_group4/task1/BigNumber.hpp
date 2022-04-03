@@ -14,6 +14,9 @@ class BigNumber
     size_t sumLength(const BigNumber &other) const;
     BigNumber simpleMultiply(unsigned n) const;
     BigNumber mulPower10(unsigned power) const;
+    const BigNumber &appendLeft(const BigNumber &other, size_t pos);
+    const BigNumber &appendRight(unsigned n);
+    unsigned simpleDivision(const BigNumber &divisor, BigNumber &remainder) const;
 
 public:
     BigNumber(const char *number = "0");
