@@ -45,6 +45,8 @@ public:
     void setDiagnose(const char *newDiag);
     void setCodition(Condition newCond);
     void writeToBinary(std::ofstream &ofs);
+    void writeToText(std::ofstream &ofs);
+    void readFromText(std::ifstream &ifs);
     void readFromBinary(std::ifstream &ifs);
     bool hasDignose(const char *diag) const { return strstr(diagnose, diag); }
     bool operator==(const Patient &other) { return condition == other.condition; }

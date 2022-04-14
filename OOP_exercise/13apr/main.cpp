@@ -11,8 +11,8 @@ int main()
     a += p;
     std::cin >> p;
     a += p;
-    a.writeToBinary("out.gp");
-    a.readFromBinary("out.gp");
+    a.writeToText("out.txt");
+    a.readFromText("out.txt");
     a.print();
     return 0;
 }

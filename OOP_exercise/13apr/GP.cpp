@@ -151,3 +151,29 @@ void GP::print() const
     for (unsigned i = 0; i < size; ++i)
         std::cout << *patients[i];
 }
+
+void GP::writeToText(const char *fileName)
+{
+    std::ofstream ofs("out.txt");
+    assert(ofs.is_open());
+    ofs << size << '\n';
+    for (unsigned i = 0; i < size; ++i)
+        patients[i]->writeToText(ofs);
+    ofs.close();
+}
+
+void GP::readFromText(const char *fileName)
+{
+    clear();
+    std::ifstream ifs("out.txt");
+    assert(ifs.is_open());
+    ifs >> size;
+    capacity = size;
+    patients = new Patient *[capacity];
+    for (unsigned i = 0; i < size; ++i)
+    {
+        patients[i] = new Patient;
+        patients[i]->readFromText(ifs);
+    }
+    ifs.close();
+}

@@ -121,7 +121,10 @@ std::ostream &operator<<(std::ostream &os, Condition C)
 std::istream &operator>>(std::istream &is, Condition &C)
 {
     char buf[INPUT_MAX];
-    is.getline(buf, INPUT_MAX);
+    if (&is != &std::cin)
+        is.getline(buf, INPUT_MAX, ',');
+    else
+        is.getline(buf, INPUT_MAX);
     if (!strcmp(buf, "healing"))
         C = HEALING;
     else if (!strcmp(buf, "bad"))
@@ -164,4 +167,33 @@ void Patient::readFromBinary(std::ifstream &ifs)
     diagnose[length] = '\0';
     ifs.read((char *)&condition, sizeof(condition));
     ifs.read((char *)&good, sizeof(good));
+}
+
+void Patient::writeToText(std::ofstream &ofs)
+{
+    ofs << strlen(name) << ',' << name
+        << ',' << age
+        << ',' << address
+        << ',' << strlen(diagnose)
+        << ',' << diagnose
+        << ',' << condition
+        << ',' << good << '\n';
+}
+
+void Patient::readFromText(std::ifstream &ifs)
+{
+    clear();
+    size_t length;
+    ifs >> length;
+    ifs.get();
+    name = new char[length + 1];
+    ifs.getline(name, length + 1, ',');
+    ifs >> age;
+    ifs.get();
+    ifs.getline(address, ADDRESS_MAX, ',');
+    ifs >> length;
+    ifs.get();
+    diagnose = new char[length + 1];
+    ifs.getline(diagnose, length + 1, ',');
+    ifs >> condition >> good;
 }

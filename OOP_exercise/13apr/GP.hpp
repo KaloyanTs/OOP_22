@@ -27,8 +27,10 @@ public:
     GP operator-(const char *name);
     void showAverageCondition() const;
     void writeToBinary(const char *fileName);
+    void writeToText(const char *fileName);
     void readFromBinary(const char *fileName);
-    void print()const;
+    void readFromText(const char *fileName);
+    void print() const;
 };
 
 #endif
