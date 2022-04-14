@@ -142,6 +142,7 @@ void Patient::writeToBinary(std::ofstream &ofs)
     ofs.write((const char *)&age, sizeof(age));
     ofs.write(address, ADDRESS_MAX);
     length = strlen(diagnose);
+    ofs.write((const char *)&length, sizeof(length));
     ofs.write(diagnose, length);
     ofs.write((const char *)&condition, sizeof(condition));
     ofs.write((const char *)&good, sizeof(good));
@@ -159,8 +160,8 @@ void Patient::readFromBinary(std::ifstream &ifs)
     ifs.read(address, ADDRESS_MAX);
     ifs.read((char *)&length, sizeof(length));
     diagnose = new char[length + 1];
-    diagnose[length] = '\0';
     ifs.read(diagnose, length);
+    diagnose[length] = '\0';
     ifs.read((char *)&condition, sizeof(condition));
     ifs.read((char *)&good, sizeof(good));
 }
