@@ -1,0 +1,4 @@
+3
+5,Ivcho,19,Montana,4,nqma,healthy,5.4
+2,Az,19,St Z,6,kolqno,healthy,8
+4,Dani,20,Montana,4,nqma,healthy,7.34
