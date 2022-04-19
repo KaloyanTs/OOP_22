@@ -3,7 +3,7 @@
 Student::Student(const char *_name,
                  const char *_fn,
                  float _avg,
-                 char _group)
+                 unsigned _group)
     : avg(_avg), group(_group), name(new char[strlen(_name) + 1]), fn(new char[strlen(_fn) + 1])
 {
     strcpy(name, _name);
@@ -50,18 +50,24 @@ void Student::clear()
     delete[] fn;
 }
 
-std::ostream &operator<<(std::ostream &os, const Student &S)
+std::ofstream &operator<<(std::ofstream &os, const Student &S)
 {
-    return os << strlen(S.name) << ' '
-              << S.name << ';'
-              << strlen(S.fn) << ' '
-              << S.fn << ';'
-              << S.avg << ' '
-              << S.group << '\n';
+    os << strlen(S.name) << ' ' << S.name
+       << ';'
+       << strlen(S.fn)
+       << ' '
+       << S.fn
+       << ';'
+       << S.avg
+       << ';'
+       << S.group
+       << '\n';
+    return os;
 }
 
-std::istream &operator>>(std::istream &is, Student &S)
+std::ifstream &operator>>(std::ifstream &is, Student &S)
 {
+    S.clear();
     size_t length;
     is >> length;
     is.get();
@@ -91,4 +97,15 @@ Student::~Student()
 bool Student::operator<(const Student &other) const
 {
     return avg < other.avg || (avg == other.avg && strcmp(fn, other.fn) < 0);
+}
+
+void Student::copy(const Student &other)
+{
+    clear();
+    name = new char[strlen(other.name) + 1];
+    strcpy(name, other.name);
+    fn = new char[strlen(other.fn) + 1];
+    strcpy(fn, other.fn);
+    avg = other.avg;
+    group = other.group;
 }
