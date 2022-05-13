@@ -8,6 +8,8 @@ class Pet : public Animal
     unsigned phone;
 
     void clear();
+
+protected:
     void copy(const Pet &other);
 
 public:
