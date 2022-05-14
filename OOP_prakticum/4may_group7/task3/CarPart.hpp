@@ -25,7 +25,7 @@ public:
     }
     CarPart(const CarPart &other);
     CarPart &operator=(const CarPart &other);
-    ~CarPart();
+    virtual ~CarPart();
 
     virtual void print(std::ostream &os = std::cout) const;
 };

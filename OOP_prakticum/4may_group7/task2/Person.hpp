@@ -15,12 +15,12 @@ public:
     Person(const char *_name = "no name", unsigned age = 0);
     Person(const Person &other);
     Person &operator=(const Person &other);
-    ~Person();
+    virtual ~Person();
 
     const char *getName() const { return name; }
     unsigned getAge() const { return age; }
 
-    virtual void print(std::ostream &os)const;
+    virtual void print(std::ostream &os) const;
 };
 
 std::ostream &operator<<(std::ostream &os, const Person &P);

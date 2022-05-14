@@ -13,6 +13,8 @@ public:
     Furniture(unsigned l, unsigned w, unsigned h, unsigned pConst)
         : length(l), width(w), height(h), priceConst(pConst) { ID = ++ID_COUNTER; }
 
+    virtual ~Furniture();
+
     unsigned getLength() const { return length; }
     unsigned getWidth() const { return width; }
     unsigned getHeight() const { return height; }
