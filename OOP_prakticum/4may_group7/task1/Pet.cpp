@@ -38,7 +38,6 @@ void Pet::setOwner(const char *_owner)
 
 std::ostream &operator<<(std::ostream &os, const Pet &P)
 {
-    // todo try different implementations
     return os << *(Animal *)&P
               << "\nOwner: " << P.getOwner()
               << "\tPhone Number: " << P.getPhoneNumber();

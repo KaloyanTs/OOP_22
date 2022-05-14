@@ -16,7 +16,7 @@ public:
     Animal(const char *_name = "unknown", unsigned _age = 0);
     Animal(const Animal &other);
     Animal &operator=(const Animal &other);
-    ~Animal();
+    virtual ~Animal();
 
     const char *getName() const { return name; }
     unsigned getAge() const { return age; }

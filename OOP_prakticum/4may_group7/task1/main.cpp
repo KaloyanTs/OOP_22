@@ -20,5 +20,8 @@ int main()
     p2 = WildAnimal("dfd", 324, EUROPE);
     std::cout << p2 << '\n';
     std::cout << (Animal)p2 << '\n';
+
+    Animal *ptr = new WildAnimal("dsff", 89, EUROPE);
+    delete ptr;
     return 0;
 }
