@@ -19,7 +19,7 @@ public:
 
     void ask();
     float grade() const;
-    Question *clone() const { return new OpenQuestion(*this); }
+    OpenQuestion *clone() const { return new OpenQuestion(*this); }
 };
 
 #endif

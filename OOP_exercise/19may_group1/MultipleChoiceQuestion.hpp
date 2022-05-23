@@ -25,7 +25,7 @@ public:
 
     void ask();
     float grade() const;
-    Question *clone() const { return new MultipleChoiceQuestion(*this); }
+    MultipleChoiceQuestion *clone() const { return new MultipleChoiceQuestion(*this); }
 };
 
 #endif

@@ -12,7 +12,7 @@ public:
         : Question(text, points), correct(c) {}
     void ask();
     float grade() const;
-    Question *clone() const { return new YesNoQuestion(*this); }
+    YesNoQuestion *clone() const { return new YesNoQuestion(*this); }
 };
 
 #endif
